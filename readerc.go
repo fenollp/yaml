@@ -1,6 +1,7 @@
 package yaml
 
 import (
+	"fmt"
 	"io"
 )
 
@@ -95,7 +96,7 @@ func yaml_parser_update_buffer(parser *yaml_parser_t, length int) bool {
 
 	// [Go] This function was changed to guarantee the requested length size at EOF.
 	// The fact we need to do this is pretty awful, but the description above implies
-	// for that to be the case, and there are tests 
+	// for that to be the case, and there are tests
 
 	// If the EOF flag is set and the raw buffer is empty, do nothing.
 	if parser.eof && parser.raw_buffer_pos == len(parser.raw_buffer) {
@@ -353,6 +354,9 @@ func yaml_parser_update_buffer(parser *yaml_parser_t, length int) bool {
 			case value >= 0xE000 && value <= 0xFFFD:
 			case value >= 0x10000 && value <= 0x10FFFF:
 			default:
+				if true {
+					panic(fmt.Sprintf(">>> %+v %d", parser.offset, int(value)))
+				}
 				return yaml_parser_set_reader_error(parser,
 					"control characters are not allowed",
 					parser.offset, int(value))
